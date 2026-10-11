@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.nordhico</groupId>
     <artifactId>slackleaf</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
     <name>SlackLeaf</name>
     <description>
@@ -41,8 +41,9 @@
             <version>1.23.2</version>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
+            <groupId>tools.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>3.2.3</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
