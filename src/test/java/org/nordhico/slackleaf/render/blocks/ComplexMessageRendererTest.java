@@ -1,6 +1,6 @@
 package org.nordhico.slackleaf.render.blocks;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.nordhico.slackleaf.SlackLeafTemplateRenderer;
 

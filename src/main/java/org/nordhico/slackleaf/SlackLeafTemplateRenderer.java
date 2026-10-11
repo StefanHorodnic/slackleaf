@@ -1,7 +1,5 @@
 package org.nordhico.slackleaf;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.nordhico.slackleaf.render.SlackBlockRendererRegistry;
@@ -11,6 +9,9 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.exc.JsonNodeException;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ public class SlackLeafTemplateRenderer {
     private final SlackRenderContext renderContext;
 
     public SlackLeafTemplateRenderer() {
-        this(defaultTemplateEngine(), new ObjectMapper(), defaultRegistry());
+        this(defaultTemplateEngine(), new JsonMapper(), defaultRegistry());
     }
 
     public SlackLeafTemplateRenderer(TemplateEngine templateEngine, ObjectMapper objectMapper, SlackBlockRendererRegistry registry) {
@@ -62,7 +63,7 @@ public class SlackLeafTemplateRenderer {
             return objectMapper.writeValueAsString(payload);
         } catch (SlackLeafTemplateException exception) {
             throw exception;
-        } catch (JsonProcessingException exception) {
+        } catch (JsonNodeException exception) {
             throw new SlackLeafTemplateException("Failed to serialize Slack message.", exception);
         } catch (RuntimeException exception) {
             throw new SlackLeafTemplateException("Failed to render Slackleaf template: " + templateName, exception);
