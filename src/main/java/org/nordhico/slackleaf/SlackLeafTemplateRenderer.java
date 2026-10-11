@@ -12,7 +12,6 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -32,6 +31,7 @@ public class SlackLeafTemplateRenderer {
         this.objectMapper = Objects.requireNonNull(objectMapper);
         this.registry = Objects.requireNonNull(registry);
         this.renderContext = new SlackRenderContext();
+        this.renderContext.setRegistry(this.registry);
     }
 
     public String render(String templateName, Map<String, ?> variables) {
@@ -49,10 +49,10 @@ public class SlackLeafTemplateRenderer {
                         "Template must contain a <slack-message> root."
                 );
             }
-            List<Object> blocks = Collections.singletonList(root.children().stream()
+            List<Map<String, Object>> blocks = root.children().stream()
                     .filter(child -> child.normalName().startsWith("slack-"))
                     .map(this::renderBlock)
-                    .toList());
+                    .toList();
 
             Map<String, Object> payload = new java.util.LinkedHashMap<>();
             payload.put("blocks", blocks);
@@ -83,6 +83,8 @@ public class SlackLeafTemplateRenderer {
                 new ActionsBlockRenderer(),
                 new FileBlockRenderer(),
                 new VideoBlockRenderer(),
+                new ContainerBlockRenderer(),
+                new ButtonElementRenderer(),
                 new CustomBlockRenderer()
         ));
     }

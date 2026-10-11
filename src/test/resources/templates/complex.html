@@ -1,0 +1,33 @@
+<slack-message th:attr="text=${messageText}">
+  <slack-header th:text="${headerText}"></slack-header>
+
+  <slack-container
+      block-id="bulk-update"
+      title="Bulk update"
+      subtitle="Review changes before confirming"
+      is-collapsible="true">
+    <slack-section th:text="${customerLine}"></slack-section>
+    <slack-section th:if="${summary != null}" th:text="${summary}"></slack-section>
+
+    <slack-actions>
+      <slack-button
+          th:each="action : ${actions}"
+          th:attr="action-id=${action.id}, text=${action.label}, style=${action.style}, value=${action.value}">
+      </slack-button>
+    </slack-actions>
+
+    <slack-divider></slack-divider>
+
+    <slack-container
+        block-id="summary-panel"
+        title="Summary"
+        width="narrow">
+      <slack-context>
+        <slack-markdown th:text="${updatedBy}"></slack-markdown>
+      </slack-context>
+
+      <slack-section th:each="row : ${detailRows}" th:text="${row}"></slack-section>
+      <slack-section th:if="${showFooter}" th:text="${footer}"></slack-section>
+    </slack-container>
+  </slack-container>
+</slack-message>

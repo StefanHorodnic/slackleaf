@@ -1,6 +1,5 @@
 package org.nordhico.slackleaf.render.blocks;
 
-import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Element;
 import org.nordhico.slackleaf.render.SlackBlockRenderer;
 import org.nordhico.slackleaf.render.SlackRenderContext;

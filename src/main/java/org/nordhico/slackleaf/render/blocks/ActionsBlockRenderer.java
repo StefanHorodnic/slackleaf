@@ -18,43 +18,17 @@ public class ActionsBlockRenderer implements SlackBlockRenderer {
     @Override
     public Map<String, Object> render(Element element, SlackRenderContext context) {
         var block = context.block("actions");
-        List<Object> buttons = new ArrayList<>();
+        List<Object> elements = new ArrayList<>();
         for (Element child : element.children()) {
-            if (!child.normalName().equals("slack-button")) {
-                throw new SlackLeafTemplateException("Unsupported <slack-actions> child: <" + child.normalName() + ">.");
+            if (!child.normalName().startsWith("slack-")) {
+                continue;
             }
-            var button = context.block("button");
-            button.put(
-                    "text",
-                    context.textObject(
-                            context.required(child, "text"),
-                            "plain_text"
-                    )
-            );
-            button.put(
-                    "action_id",
-                    context.required(child, "action-id")
-            );
-
-            if (child.hasAttr("value")) {
-                button.put("value", child.attr("value"));
-            }
-
-            if (child.hasAttr("url")) {
-                button.put("url", child.attr("url"));
-            }
-
-            if (child.hasAttr("style")) {
-                button.put("style", child.attr("style"));
-            }
-
-            buttons.add(button);
+            elements.add(context.renderBlock(child));
         }
-
-        if (buttons.isEmpty()) {
-            throw new SlackLeafTemplateException("<slack-actions> must contain at least one button.");
+        if (elements.isEmpty()) {
+            throw new SlackLeafTemplateException("<slack-actions> must contain at least one Slack element.");
         }
-        block.put("elements", buttons);
+        block.put("elements", elements);
         return block;
     }
 }

@@ -7,6 +7,19 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class SlackRenderContext {
+    private SlackBlockRendererRegistry registry;
+
+    public void setRegistry(SlackBlockRendererRegistry registry) {
+        this.registry = registry;
+    }
+
+    public Map<String, Object> renderBlock(Element element) {
+        if (registry == null) {
+            throw new IllegalStateException("No Slack block registry configured for render context.");
+        }
+        return registry.get(element.normalName()).render(element, this);
+    }
+
     public String required(Element element, String attribute) {
         var value = element.attr(attribute);
         if (value == null || value.isBlank()) {
