@@ -84,6 +84,7 @@ public class SlackLeafTemplateRenderer {
                 new FileBlockRenderer(),
                 new VideoBlockRenderer(),
                 new ContainerBlockRenderer(),
+                new MarkdownRenderer(),
                 new ButtonElementRenderer(),
                 new CustomBlockRenderer()
         ));

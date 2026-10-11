@@ -213,6 +213,28 @@ Example:
 </slack-container>
 ```
 
+### `slack-markdown`
+
+Creates a Slack `markdown` block when used as a top-level block.
+
+Required content:
+
+- element text is used as the markdown payload
+
+Optional attributes:
+
+- `block-id` is accepted but ignored by Slack, since markdown blocks do not retain `block_id`
+
+Example:
+
+```html
+<slack-markdown>
+  **Lots of information here!!**
+</slack-markdown>
+```
+
+When nested inside `slack-section` or `slack-context`, the same tag name is used as a text helper to emit a Slack `mrkdwn` text object.
+
 ### `slack-block`
 
 Passes a custom Slack block through directly.
@@ -235,7 +257,7 @@ The following helper tags are supported as children inside `slack-section` and `
 
 ### `slack-markdown`
 
-Produces a Slack `mrkdwn` text object.
+Produces a Slack `mrkdwn` text object when used as a nested child tag. This is the same tag name used for the standalone markdown block.
 
 ### `slack-plain-text`
 
